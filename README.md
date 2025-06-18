@@ -19,6 +19,10 @@ This fork adds support for cloning items between lists with the following option
 ---
 Only tested in vue
 Feel free to reach out if you have questions or want to contribute back!
+## Install
 
-https://www.npmjs.com/package/formkit-clone-feature
-npm i formkit-clone-feature
+```bash 
+npm install formkit-clone-feature
+```
+
+You can also visit the package page here: https://www.npmjs.com/package/formkit-clone-feature
