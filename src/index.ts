@@ -405,6 +405,7 @@ export function dragAndDrop<T>({
       multiDrag: config.multiDrag ?? false,
       nativeDrag: config.nativeDrag ?? true,
       performSort,
+      performClone,
       performTransfer,
       root: config.root ?? document,
       setupNode,
@@ -732,6 +733,90 @@ export function performTransfer<T>({
 
   setParentValues(currentParent.el, currentParent.data, currentParentValues);
 
+  setParentValues(targetParent.el, targetParent.data, targetParentValues);
+
+  if (targetParent.data.config.onTransfer) {
+    targetParent.data.config.onTransfer({
+      sourceParent: currentParent,
+      targetParent,
+      initialParent,
+      draggedNodes,
+      targetIndex,
+      state,
+      targetNodes,
+    });
+  }
+
+  if (currentParent.data.config.onTransfer) {
+    currentParent.data.config.onTransfer({
+      sourceParent: currentParent,
+      targetParent,
+      initialParent,
+      draggedNodes,
+      targetIndex,
+      state,
+      targetNodes: targetNodes ? targetNodes : [],
+    });
+  }
+}
+
+/**
+ * Perform the clone of the nodes.
+ *
+ * @param data - The clone data.
+ * @param state - The drag state.
+ *
+ * @returns void
+ */
+export function performClone<T>({
+  currentParent,
+  targetParent,
+  initialParent,
+  draggedNodes,
+  initialIndex,
+  targetNodes,
+  state,
+}: {
+  currentParent: ParentRecord<T>;
+  targetParent: ParentRecord<T>;
+  initialParent: ParentRecord<T>;
+  draggedNodes: Array<NodeRecord<T>>;
+  initialIndex: number;
+  state: BaseDragState<T> | DragState<T> | SynthDragState<T>;
+  targetNodes: Array<NodeRecord<T>>;
+}) {
+  remapNodes(initialParent.el);
+  const draggedValues = draggedNodes.map((x) => x.data.value);
+  
+  const currentParentValues = parentValues(currentParent.el, currentParent.data).map(item => ({
+    ...item,
+    key: `${Date.now()}-${Math.random().toString(36).substring(2, 10)}`
+  }));
+  const targetParentValues = parentValues(targetParent.el, targetParent.data);
+
+  const reset =
+    initialParent.el === targetParent.el &&
+    targetParent.data.config.sortable === false;
+
+  let targetIndex: number;
+
+  if (targetNodes.length) {
+    if (reset) {
+      targetIndex = initialIndex;
+    } else if (targetParent.data.config.sortable === false) {
+      targetIndex = targetParent.data.enabledNodes.length;
+    } else {
+      targetIndex = targetNodes[0].data.index;
+    }
+
+    targetParentValues.splice(targetIndex, 0, ...draggedValues);
+  } else {
+    targetIndex = reset ? initialIndex : targetParent.data.enabledNodes.length;
+
+    targetParentValues.splice(targetIndex, 0, ...draggedValues);
+  }
+
+  setParentValues(currentParent.el, currentParent.data, currentParentValues);
   setParentValues(targetParent.el, targetParent.data, targetParentValues);
 
   if (targetParent.data.config.onTransfer) {
@@ -1764,7 +1849,6 @@ export function handleNodeDrop<T>(
   sp(data.e);
 
   dropped = true;
-
   config.handleEnd(state);
 }
 
@@ -2648,6 +2732,21 @@ export function transfer<T>(
     })
   )
     return;
+
+  if (data.targetData.parent.data.config.clone) {
+      data.targetData.parent.data.config.performClone({
+      currentParent: state.currentParent,
+      targetParent: data.targetData.parent,
+      initialParent: state.initialParent,
+      draggedNodes: state.draggedNodes,
+      initialIndex: state.initialIndex,
+      state,
+      targetNodes: "node" in data.targetData ? [data.targetData.node] : [],
+    });
+    state.currentParent = data.targetData.parent;
+    state.transferred = true;
+    return;
+  }
 
   data.targetData.parent.data.config.performTransfer({
     currentParent: state.currentParent,

@@ -69,6 +69,10 @@ export interface ParentConfig<T> {
   /**
    * External drag handle
    */
+  clone?: boolean;
+  /**
+   * External drag handle
+   */
   externalDragHandle?: {
     el: HTMLElement;
     callback: () => HTMLElement;
@@ -246,6 +250,26 @@ export interface ParentConfig<T> {
    * Function that is called when a transfer operation is to be performed.
    */
   performTransfer: ({
+    currentParent,
+    targetParent,
+    initialParent,
+    draggedNodes,
+    initialIndex,
+    state,
+    targetNodes,
+  }: {
+    currentParent: ParentRecord<T>;
+    targetParent: ParentRecord<T>;
+    initialParent: ParentRecord<T>;
+    draggedNodes: Array<NodeRecord<T>>;
+    initialIndex: number;
+    state: BaseDragState<T> | DragState<T> | SynthDragState<T>;
+    targetNodes: Array<NodeRecord<T>>;
+  }) => void;
+   /**
+   * Function that is called when a clone operation is to be performed.
+   */
+  performClone: ({
     currentParent,
     targetParent,
     initialParent,
