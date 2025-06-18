@@ -67,9 +67,13 @@ export interface ParentConfig<T> {
    */
   dragHandle?: string;
   /**
-   * External drag handle
+   *  A flag to enable cloning. Parent node will only reindex not filtered
    */
   clone?: boolean;
+   /**
+   *  A flag to lock input even if in the same group.
+   */
+  locked?: boolean;
   /**
    * External drag handle
    */

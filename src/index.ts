@@ -2729,10 +2729,9 @@ export function transfer<T>(
       initialParent: state.initialParent,
       draggedNodes: state.draggedNodes,
       state,
-    })
-  )
+    }) || data.targetData.parent.data.config.locked)
     return;
-
+    
   if (data.targetData.parent.data.config.clone) {
       data.targetData.parent.data.config.performClone({
       currentParent: state.currentParent,
