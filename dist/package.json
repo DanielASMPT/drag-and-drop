@@ -1,6 +1,6 @@
 {
   "name": "formkit-clone-feature",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Drag and drop package.",
   "main": "./index.cjs",
   "types": "./index.d.cts",
