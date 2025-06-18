@@ -1,21 +1,21 @@
-<img src="https://s3.amazonaws.com/cdn.formk.it/web-assets/drag-and-drop.gif" alt="FormKit Drag & Drop" width="250" height="250">
+---
 
-[![Tests](https://github.com/formkit/drag-and-drop/actions/workflows/ci.yml/badge.svg)](https://github.com/formkit/drag-and-drop/actions/workflows/ci.yml)![GitHub Sponsors](https://img.shields.io/github/sponsors/formkit)
-![NPM Version](https://img.shields.io/npm/v/%40formkit%2Ftempo)
+# Forked Features: Clone Functionality
 
-## Introduction
+This fork adds support for cloning items between lists with the following options:
 
-FormKit’s Drag and Drop is a small library for adding data-first drag and drop sorting and transferring for lists in your app. It’s simple, flexible, framework agnostic, and clocks in at only ~4Kb gzipped.
+- **`clone: true`**  
+  When set on the target list, allows items to be cloned (copied) rather than moved.
 
-<a href="https://drag-and-drop.formkit.com">
-Check out the docs here!
-</a>
+- **`locked: true`**  
+  When set on the source list, prevents its items from being moved or reordered.
+
+### How it works
+
+- The parent list is re-indexed on each insert to maintain order.
+- Each item in the source list **must have a unique `key`** upfront, which is used for indexing.
+- Enables flexible drag-and-drop behavior where the source list acts as a locked palette, and the target list receives clones of those items.
 
 ---
 
-Created by the <a href="https://formkit.com">FormKit team</a>.
-
-> [!NOTE]  
-> Unlike many projects this repository includes the `dist` directory since the documentation extracts TypeScript types from the build source code.
-
-## About this repository
+Feel free to reach out if you have questions or want to contribute back!
