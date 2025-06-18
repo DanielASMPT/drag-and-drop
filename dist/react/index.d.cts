@@ -36,6 +36,14 @@ interface ParentConfig<T> {
      */
     dragHandle?: string;
     /**
+     *  A flag to enable cloning. Parent node will only reindex not filtered
+     */
+    clone?: boolean;
+    /**
+    *  A flag to lock input even if in the same group.
+    */
+    locked?: boolean;
+    /**
      * External drag handle
      */
     externalDragHandle?: {
@@ -169,6 +177,18 @@ interface ParentConfig<T> {
      * Function that is called when a transfer operation is to be performed.
      */
     performTransfer: ({ currentParent, targetParent, initialParent, draggedNodes, initialIndex, state, targetNodes, }: {
+        currentParent: ParentRecord<T>;
+        targetParent: ParentRecord<T>;
+        initialParent: ParentRecord<T>;
+        draggedNodes: Array<NodeRecord<T>>;
+        initialIndex: number;
+        state: BaseDragState<T> | DragState<T> | SynthDragState<T>;
+        targetNodes: Array<NodeRecord<T>>;
+    }) => void;
+    /**
+    * Function that is called when a clone operation is to be performed.
+    */
+    performClone: ({ currentParent, targetParent, initialParent, draggedNodes, initialIndex, state, targetNodes, }: {
         currentParent: ParentRecord<T>;
         targetParent: ParentRecord<T>;
         initialParent: ParentRecord<T>;

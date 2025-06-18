@@ -55,6 +55,14 @@ interface ParentConfig<T> {
      */
     dragHandle?: string;
     /**
+     *  A flag to enable cloning. Parent node will only reindex not filtered
+     */
+    clone?: boolean;
+    /**
+    *  A flag to lock input even if in the same group.
+    */
+    locked?: boolean;
+    /**
      * External drag handle
      */
     externalDragHandle?: {
@@ -188,6 +196,18 @@ interface ParentConfig<T> {
      * Function that is called when a transfer operation is to be performed.
      */
     performTransfer: ({ currentParent, targetParent, initialParent, draggedNodes, initialIndex, state, targetNodes, }: {
+        currentParent: ParentRecord<T>;
+        targetParent: ParentRecord<T>;
+        initialParent: ParentRecord<T>;
+        draggedNodes: Array<NodeRecord<T>>;
+        initialIndex: number;
+        state: BaseDragState<T> | DragState<T> | SynthDragState<T>;
+        targetNodes: Array<NodeRecord<T>>;
+    }) => void;
+    /**
+    * Function that is called when a clone operation is to be performed.
+    */
+    performClone: ({ currentParent, targetParent, initialParent, draggedNodes, initialIndex, state, targetNodes, }: {
         currentParent: ParentRecord<T>;
         targetParent: ParentRecord<T>;
         initialParent: ParentRecord<T>;
@@ -1007,6 +1027,23 @@ declare function performTransfer<T>({ currentParent, targetParent, initialParent
     targetNodes: Array<NodeRecord<T>>;
 }): void;
 /**
+ * Perform the clone of the nodes.
+ *
+ * @param data - The clone data.
+ * @param state - The drag state.
+ *
+ * @returns void
+ */
+declare function performClone<T>({ currentParent, targetParent, initialParent, draggedNodes, initialIndex, targetNodes, state, }: {
+    currentParent: ParentRecord<T>;
+    targetParent: ParentRecord<T>;
+    initialParent: ParentRecord<T>;
+    draggedNodes: Array<NodeRecord<T>>;
+    initialIndex: number;
+    state: BaseDragState<T> | DragState<T> | SynthDragState<T>;
+    targetNodes: Array<NodeRecord<T>>;
+}): void;
+/**
  * Get the values of the parent.
  *
  * @param parent - The parent element.
@@ -1384,4 +1421,4 @@ declare function isNode(el: unknown): el is Node;
  */
 declare function addEvents(el: Document | ShadowRoot | Node | HTMLElement | Window, events: EventHandlers | any): AbortController;
 
-export { type BaseDragState, type Coordinates, type DNDPlugin, type DNDPluginData, type DragAndDrop, type DragAndDropData, type DragState, type DragStateProps, type DragendEvent, type DragendEventData, type DragstartEvent, type DragstartEventData, type DropSwapConfig, type DropSwapState, type DynamicValuesData, type EventHandlers, type InsertConfig, type InsertEvent, type InsertState, type NativeDragEffects, type Node, type NodeData, type NodeDragEventData, type NodeEvent, type NodeEventData, type NodeFromPoint, type NodePointerEventData, type NodeRecord, type NodeTargetData, type NodesData, type ParentConfig, type ParentData, type ParentDragEventData, type ParentEventData, type ParentFromPoint, type ParentKeydownEventData, type ParentObservers, type ParentPointerEventData, type ParentRecord, type ParentTargetData, type ParentsData, type PluginData, type PointeroverNodeEvent, type PointeroverParentEvent, type RemapFinished, type RemapFinishedData, type ScrollData, type SetupNode, type SetupNodeData, type ShouldSwapData, type SortEvent, type SortEventData, type StateEvents, type SynthDragState, type SynthDragStateProps, type TearDownNode, type TearDownNodeData, type TransferEvent, type TransferEventData, addClass, addEvents, addNodeClass, addParentClass, animations, dragAndDrop, dragStateProps, dragValues, dragstartClasses, dropOrSwap, getElFromPoint, handleClickNode, handleClickParent, handleDragend, handleDragstart, handleEnd, handleLongPress, handleNodeBlur, handleNodeDragover, handleNodeDrop, handleNodeFocus, handleNodeKeydown, handleNodePointerdown, handleNodePointerover, handleNodePointerup, handleParentDragover, handleParentDrop, handleParentFocus, handleParentPointerover, handlePointercancel, initDrag, insert, isBrowser, isDragState, isNode, isSynthDragState, nodeEventData, nodes, parentEventData, parentValues, parents, performSort, performTransfer, preventSortOnScroll, remapFinished, remapNodes, removeClass, resetState, setAttrs, setDragState, setParentValues, setupNode, setupNodeRemap, sort, state, synthMove, tearDown, tearDownNode, tearDownNodeRemap, transfer, updateConfig, validateDragHandle, validateDragstart, validateSort, validateTransfer };
+export { type BaseDragState, type Coordinates, type DNDPlugin, type DNDPluginData, type DragAndDrop, type DragAndDropData, type DragState, type DragStateProps, type DragendEvent, type DragendEventData, type DragstartEvent, type DragstartEventData, type DropSwapConfig, type DropSwapState, type DynamicValuesData, type EventHandlers, type InsertConfig, type InsertEvent, type InsertState, type NativeDragEffects, type Node, type NodeData, type NodeDragEventData, type NodeEvent, type NodeEventData, type NodeFromPoint, type NodePointerEventData, type NodeRecord, type NodeTargetData, type NodesData, type ParentConfig, type ParentData, type ParentDragEventData, type ParentEventData, type ParentFromPoint, type ParentKeydownEventData, type ParentObservers, type ParentPointerEventData, type ParentRecord, type ParentTargetData, type ParentsData, type PluginData, type PointeroverNodeEvent, type PointeroverParentEvent, type RemapFinished, type RemapFinishedData, type ScrollData, type SetupNode, type SetupNodeData, type ShouldSwapData, type SortEvent, type SortEventData, type StateEvents, type SynthDragState, type SynthDragStateProps, type TearDownNode, type TearDownNodeData, type TransferEvent, type TransferEventData, addClass, addEvents, addNodeClass, addParentClass, animations, dragAndDrop, dragStateProps, dragValues, dragstartClasses, dropOrSwap, getElFromPoint, handleClickNode, handleClickParent, handleDragend, handleDragstart, handleEnd, handleLongPress, handleNodeBlur, handleNodeDragover, handleNodeDrop, handleNodeFocus, handleNodeKeydown, handleNodePointerdown, handleNodePointerover, handleNodePointerup, handleParentDragover, handleParentDrop, handleParentFocus, handleParentPointerover, handlePointercancel, initDrag, insert, isBrowser, isDragState, isNode, isSynthDragState, nodeEventData, nodes, parentEventData, parentValues, parents, performClone, performSort, performTransfer, preventSortOnScroll, remapFinished, remapNodes, removeClass, resetState, setAttrs, setDragState, setParentValues, setupNode, setupNodeRemap, sort, state, synthMove, tearDown, tearDownNode, tearDownNodeRemap, transfer, updateConfig, validateDragHandle, validateDragstart, validateSort, validateTransfer };

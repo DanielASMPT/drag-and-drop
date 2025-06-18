@@ -1,6 +1,7 @@
 {
   "version": "0.5.3",
-  "private": true,
+  "name": "formkit-clone-feature",
+  "private": false,
   "description": "Drag and drop package.",
   "main": "./index.cjs",
   "types": "./index.d.cts",
@@ -15,7 +16,7 @@
   },
   "packages": [],
   "keywords": [],
-  "author": "Sasha Milenkovic <sasha@formkit.com>",
+  "author": "Daniel Emberger (forked from Sasha Milenkovic <sasha@formkit.com>)",
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.51.1",

@@ -1,5 +1,5 @@
 {
-  "name": "@formkit/drag-and-drop",
+  "name": "formkit-clone-feature",
   "version": "0.5.3",
   "description": "Drag and drop package.",
   "main": "./index.cjs",
@@ -15,7 +15,7 @@
   },
   "packages": [],
   "keywords": [],
-  "author": "Sasha Milenkovic <sasha@formkit.com>",
+  "author": "Daniel Emberger (forked from Sasha Milenkovic <sasha@formkit.com>)",
   "license": "MIT",
   "exports": {
     "./vue": {
