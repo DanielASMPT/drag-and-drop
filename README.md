@@ -8,7 +8,7 @@ This fork adds support for cloning items between lists with the following option
   When set on the target list, allows items to be cloned (copied) rather than moved.
 
 - **`locked: true`**  
-  When set on the source list, prevents its items from being moved or reordered.
+  When set on the source list, prevents items from being transfered to.
 
 ### How it works
 
