@@ -1695,6 +1695,8 @@ export function initDrag<T>(
       dragImage = config.dragImage(data, draggedNodes);
     } else {
       if (!config.multiDrag || draggedNodes.length === 1) {
+        dragState.originalZIndex = data.targetData.node.el.style.zIndex;
+        
         data.targetData.node.el.style.zIndex = "9999";
         data.targetData.node.el.style.boxSizing = "border-box";
 
@@ -1703,9 +1705,6 @@ export function initDrag<T>(
           data.e.offsetX,
           data.e.offsetY
         );
-
-        dragState.originalZIndex = data.targetData.node.el.style.zIndex;
-
         return dragState;
       } else {
         const wrapper = document.createElement("div");
@@ -1877,7 +1876,7 @@ export function handleDragend<T>(
   state: DragState<T>
 ) {
   const config = data.targetData.parent.data.config;
-  data.targetData.node.el.style.zIndex = "0";
+  data.targetData.node.el.style.zIndex = state.originalZIndex ?? "";
 
   if (!config.nativeDrag) return;
 
