@@ -2159,6 +2159,7 @@ function initDrag(data, draggedNodes2) {
       dragImage = config.dragImage(data, draggedNodes2);
     } else {
       if (!config.multiDrag || draggedNodes2.length === 1) {
+        dragState.originalZIndex = data.targetData.node.el.style.zIndex;
         data.targetData.node.el.style.zIndex = "9999";
         data.targetData.node.el.style.boxSizing = "border-box";
         data.e.dataTransfer.setDragImage(
@@ -2166,7 +2167,6 @@ function initDrag(data, draggedNodes2) {
           data.e.offsetX,
           data.e.offsetY
         );
-        dragState.originalZIndex = data.targetData.node.el.style.zIndex;
         return dragState;
       } else {
         const wrapper = document.createElement("div");
@@ -2588,7 +2588,7 @@ function validateTransfer({
   draggedNodes: draggedNodes2,
   state: state2
 }) {
-  if (targetParent.el === currentParent.el) return false;
+  if (targetParent?.el === currentParent?.el) return false;
   const targetConfig = targetParent.data.config;
   if (draggedNodes2[0].el.contains(targetParent.el)) return false;
   if (targetConfig.dropZone === false) return false;

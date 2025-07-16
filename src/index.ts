@@ -1253,7 +1253,7 @@ export function remapNodes<T>(parent: HTMLElement, force?: boolean) {
       enabledNodes.push(node);
     }
   }
-
+  
   if (
     enabledNodes.length !== parentData.getValues(parent).length &&
     !config.disabled
@@ -1695,6 +1695,8 @@ export function initDrag<T>(
       dragImage = config.dragImage(data, draggedNodes);
     } else {
       if (!config.multiDrag || draggedNodes.length === 1) {
+        dragState.originalZIndex = data.targetData.node.el.style.zIndex;
+        
         data.targetData.node.el.style.zIndex = "9999";
         data.targetData.node.el.style.boxSizing = "border-box";
 
@@ -1703,9 +1705,6 @@ export function initDrag<T>(
           data.e.offsetX,
           data.e.offsetY
         );
-
-        dragState.originalZIndex = data.targetData.node.el.style.zIndex;
-
         return dragState;
       } else {
         const wrapper = document.createElement("div");
@@ -2450,7 +2449,7 @@ export function validateTransfer<T>({
   draggedNodes: Array<NodeRecord<T>>;
   state: BaseDragState<T>;
 }) {
-  if (targetParent.el === currentParent.el) return false;
+  if (targetParent?.el === currentParent?.el) return false;
 
   const targetConfig = targetParent.data.config;
 
