@@ -2171,6 +2171,8 @@ function handleNodeBlur(data) {
 }
 function handleDragend(data, state2) {
   const config = data.targetData.parent.data.config;
+  data.targetData.node.el.style.zIndex = "0";
+  data.targetData.node.el.style.boxSizing = "border-box";
   if (!config.nativeDrag) return;
   pd(data.e);
   sp(data.e);
@@ -2497,7 +2499,7 @@ function validateTransfer({
   draggedNodes: draggedNodes2,
   state: state2
 }) {
-  if (targetParent.el === currentParent.el) return false;
+  if (targetParent?.el === currentParent?.el) return false;
   const targetConfig = targetParent.data.config;
   if (draggedNodes2[0].el.contains(targetParent.el)) return false;
   if (targetConfig.dropZone === false) return false;

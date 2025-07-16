@@ -1253,7 +1253,7 @@ export function remapNodes<T>(parent: HTMLElement, force?: boolean) {
       enabledNodes.push(node);
     }
   }
-
+  
   if (
     enabledNodes.length !== parentData.getValues(parent).length &&
     !config.disabled
@@ -1877,6 +1877,7 @@ export function handleDragend<T>(
   state: DragState<T>
 ) {
   const config = data.targetData.parent.data.config;
+  data.targetData.node.el.style.zIndex = "0";
 
   if (!config.nativeDrag) return;
 
@@ -2450,7 +2451,7 @@ export function validateTransfer<T>({
   draggedNodes: Array<NodeRecord<T>>;
   state: BaseDragState<T>;
 }) {
-  if (targetParent.el === currentParent.el) return false;
+  if (targetParent?.el === currentParent?.el) return false;
 
   const targetConfig = targetParent.data.config;
 
