@@ -2171,7 +2171,6 @@ function handleNodeBlur(data) {
 }
 function handleDragend(data, state2) {
   const config = data.targetData.parent.data.config;
-  data.targetData.node.el.style.zIndex = state2.originalZIndex ?? "";
   if (!config.nativeDrag) return;
   pd(data.e);
   sp(data.e);

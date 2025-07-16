@@ -1876,7 +1876,6 @@ export function handleDragend<T>(
   state: DragState<T>
 ) {
   const config = data.targetData.parent.data.config;
-  data.targetData.node.el.style.zIndex = state.originalZIndex ?? "";
 
   if (!config.nativeDrag) return;
 
